@@ -1,0 +1,50 @@
+.Modal {
+    position: fixed;
+    z-index: 500;
+    background-color: white;
+    width: 70%;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px black;
+    padding: 16px;
+    left: 0% !important;
+    top: 0%;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
+    height: 500px;
+}
+
+
+
+.OuterItem{
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+    height: 180px;
+    }
+    
+    .Image {
+        padding: 5px;
+        height: 100px;
+        width: 100px;
+        border: 0.5px solid black;
+        margin-bottom: 5px;
+    }
+    
+    .ItemName {
+        float: right;
+        padding: 20px;
+        color: rgb(175, 30, 5);
+    }
+    
+    .ItemPrice{
+        text-align: right;
+        padding: 5px;
+        color: rgb(3, 82, 3);
+    }
+
+@media (min-width: 600px) {
+    .Modal {
+        width: 500px;
+        left: calc(50% - 250px);
+    }
+}

@@ -1,0 +1,41 @@
+.Pizza {
+    padding: 20px;
+    margin: 30px;
+    width: 300px;
+    float: left;
+    border-style: outset;
+    border-width: 2px;
+    border-color: rgb(163, 161, 161);
+}
+
+.Image {
+    height: 200px;
+    width: 300px;
+}
+
+.Content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.AddButton{
+    display: block;
+    float: right;
+    border-color: green;
+    background-color: white;
+}
+
+.Customise{
+    display: block;
+    float: left;
+    border-color: black;
+    background-color: white;
+}
+
+.ItemQty{
+    float: right;
+}
+.Qty{
+    margin: 5px;
+}

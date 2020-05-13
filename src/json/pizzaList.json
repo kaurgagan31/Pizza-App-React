@@ -1,0 +1,44 @@
+{
+    "pizzas": [
+        {
+            "name": "Margherita",
+            "key": "PIZZ1",
+            "price": "200",
+            "base": "200",
+            "qty": 1,
+            "src": "pizza1.jpeg"
+        },
+        {
+            "name": "Cheese and Corn",
+            "key": "PIZZ2",
+            "price": "300",
+            "base": "300",
+            "qty": 1,
+            "src": "pizza2.jpg"
+        },
+        {
+            "name": "Fresh Veggie",
+            "key": "PIZZ3",
+            "price": "330",
+            "base": "330",
+            "qty": 1,
+            "src": "pizza3.jpg"
+        },
+        {
+            "name": "Panner Makhani",
+            "key": "PIZZ4",
+            "price": "400",
+            "base": "400",
+            "qty": 1,
+            "src": "pizza4.jpg"
+        },
+        {
+            "name": "Farm Villa",
+            "key": "PIZZ5",
+            "price": "450",
+            "base": "450",
+            "qty": 1,
+            "src": "pizza5.png"
+        }
+    ]
+}
