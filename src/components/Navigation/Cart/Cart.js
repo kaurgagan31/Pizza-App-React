@@ -3,7 +3,6 @@ import React from 'react';
 import classes from './Cart.module.css';
 
 const cart = (props) => {
-
     let sum = 0;
     return (
         <div className={classes.Cart}>
@@ -13,6 +12,11 @@ const cart = (props) => {
                     return (
                         <div className={classes.OuterItem} key={key}>
                             <img className={classes.Image} src={require((`../../../assets/${item.src}`))} alt=" Pizza "></img> <span className={classes.ItemName}>{item.name}</span>
+                            <div className={classes.Type}>
+                                <h6> Size: {item.size}</h6>
+                                <h6> Crust: {item.crust}</h6>
+                                <h6> Toppings: {item.toppings}</h6>
+                            </div>
                             <div>
                                 <button onClick={() => props.removedQty(item)} className={classes.RemoveButton}> - </button>
                                 <span className={classes.Qty}>{item.qty}</span>
@@ -31,7 +35,7 @@ const cart = (props) => {
                         })} $
                     </p>
                 </div>
-                : 'Your Cart is empty......'}
+                : 'YOUR CART IS EMPTY......'}
         </div>);
 }
 

@@ -5,42 +5,55 @@
     width: 70%;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px black;
-    padding: 16px;
-    left: 0% !important;
-    top: 0%;
+    padding: 20px;
+    left: 20% !important;
+    top: 20%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
-    height: 500px;
+    
 }
-
-
 
 .OuterItem{
     border: 1px solid black;
     padding: 5px;
-    margin: 5px;
-    height: 180px;
-    }
+    margin: 10px;
+}
     
-    .Image {
+.Image {
         padding: 5px;
         height: 100px;
         width: 100px;
         border: 0.5px solid black;
         margin-bottom: 5px;
-    }
+}
     
-    .ItemName {
+.ItemName {
         float: right;
         padding: 20px;
         color: rgb(175, 30, 5);
-    }
+}
     
-    .ItemPrice{
+.ItemPrice{
         text-align: right;
         padding: 5px;
         color: rgb(3, 82, 3);
-    }
+}
+
+.Size{
+    height: 40px;
+    width: 100px;
+    padding: 10px;
+    border: 0.5px solid lightblue;
+    text-align: center;
+    margin: 5px;
+}
+
+.Content{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    margin: 20px;
+}
 
 @media (min-width: 600px) {
     .Modal {

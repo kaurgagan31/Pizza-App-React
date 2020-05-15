@@ -19,7 +19,7 @@
 border: 1px solid black;
 padding: 5px;
 margin: 5px;
-height: 180px;
+height: 240px;
 }
 
 .Image {
@@ -50,4 +50,8 @@ height: 180px;
     color: white;
     font-weight: bolder;
     text-align: right;
+}
+.Type{
+    display: flex;
+    justify-content: space-between;
 }

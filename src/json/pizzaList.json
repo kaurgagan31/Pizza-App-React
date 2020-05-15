@@ -3,42 +3,232 @@
         {
             "name": "Margherita",
             "key": "PIZZ1",
-            "price": "200",
-            "base": "200",
+            "price": "99",
+            "base": "99",
             "qty": 1,
-            "src": "pizza1.jpeg"
+            "src": "pizza1.jpeg",
+            "size": [
+                {
+                    "type": "Regular",
+                    "price": "99"
+                },
+                {
+                    "type": "Medium",
+                    "price": "199"
+                }
+            ],
+            "crust": [
+                {
+                    "type": "New Hand Tossed",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "99"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "199"
+                        }
+                    ]
+                },
+                {
+                    "type": "Cheese Burst",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "174"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "298"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "Cheese and Corn",
             "key": "PIZZ2",
-            "price": "300",
-            "base": "300",
+            "price": "150",
+            "base": "150",
             "qty": 1,
-            "src": "pizza2.jpg"
+            "src": "pizza2.jpg",
+            "size": [
+                {
+                    "type": "Regular",
+                    "price": "150"
+                },
+                {
+                    "type": "Medium",
+                    "price": "300"
+                }
+            ],
+            "crust": [
+                {
+                    "type": "New Hand Tossed",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "150"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "300"
+                        }
+                    ]
+                },
+                {
+                    "type": "Cheese Burst",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "195"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "345"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "Fresh Veggie",
             "key": "PIZZ3",
-            "price": "330",
-            "base": "330",
+            "price": "110",
+            "base": "110",
             "qty": 1,
-            "src": "pizza3.jpg"
+            "src": "pizza3.jpg",
+            "size": [
+                {
+                    "type": "Regular",
+                    "price": "110"
+                },
+                {
+                    "type": "Medium",
+                    "price": "220"
+                }
+            ],
+            "crust": [
+                {
+                    "type": "New Hand Tossed",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "110"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "220"
+                        }
+                    ]
+                },
+                {
+                    "type": "Cheese Burst",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "150"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "290"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "Panner Makhani",
             "key": "PIZZ4",
-            "price": "400",
-            "base": "400",
+            "price": "200",
+            "base": "200",
             "qty": 1,
-            "src": "pizza4.jpg"
+            "src": "pizza4.jpg",
+            "size": [
+                {
+                    "type": "Regular",
+                    "price": "200"
+                },
+                {
+                    "type": "Medium",
+                    "price": "400"
+                }
+            ],
+            "crust": [
+                {
+                    "type": "New Hand Tossed",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "200"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "400"
+                        }
+                    ]
+                },
+                {
+                    "type": "Cheese Burst",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "245"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "450"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "Farm Villa",
             "key": "PIZZ5",
-            "price": "450",
-            "base": "450",
+            "price": "250",
+            "base": "250",
             "qty": 1,
-            "src": "pizza5.png"
+            "src": "pizza5.png",
+            "size": [
+                {
+                    "type": "Regular",
+                    "price": "250"
+                },
+                {
+                    "type": "Medium",
+                    "price": "500"
+                }
+            ],
+            "crust": [
+                {
+                    "type": "New Hand Tossed",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "250"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "500"
+                        }
+                    ]
+                },
+                {
+                    "type": "Cheese Burst",
+                    "price": [
+                        {
+                            "type": "Regular",
+                            "value": "300"
+                        },
+                        {
+                            "type": "Medium",
+                            "value": "560"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
