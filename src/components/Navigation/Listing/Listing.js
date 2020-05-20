@@ -77,7 +77,7 @@ const Listing = props => {
     }
 
     /** Function Open modal window for customisation  */
-    const CustomiseItemHandler = (e) => {
+    const customiseItemHandler = (e) => {
         let customDataIndex = pizzaItems.findIndex(o => o.key === e);
         const pizzaValue = pizzaItems[customDataIndex];
         setModalToggle(true);
@@ -212,7 +212,7 @@ const Listing = props => {
                             src={pizza.src}
                             items={cartItems}
                             added={addToCartHandler}
-                            customiseItem={CustomiseItemHandler}
+                            customiseItem={customiseItemHandler}
                             removedQty={removeQuantityHandler}
                             addedQty={addQuantityHandler}
                             sizeHandler={sizeHandler}
