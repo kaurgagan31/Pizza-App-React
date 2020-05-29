@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth-context';
 import classesInternal from './Toolbar.module.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,6 +19,7 @@ export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const authContext = useContext(AuthContext);
+  const history = useHistory();
 
   const logOut = () => {
     authContext.logout();
@@ -31,6 +32,11 @@ export default function MenuAppBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const viewProfile = () => {
+    history.push('/app/view-user');
+    handleClose();
+  }
 
   return (
     <div className={classes.root}>
@@ -79,8 +85,8 @@ export default function MenuAppBar() {
                 onClose={handleClose}
                 classes={{ paper: classes.profileMenu }}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={logOut}>Sign OUt</MenuItem>
+                <MenuItem onClick={viewProfile}>Profile</MenuItem>
+                <MenuItem onClick={logOut}>Sign Out</MenuItem>
               </Menu>
             </div>
           )}
@@ -89,97 +95,3 @@ export default function MenuAppBar() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useContext, useState } from 'react';
-// import { NavLink } from 'react-router-dom';
-// import {
-//   AppBar,
-//   Toolbar,
-//   Typography,
-//   Button
-// } from "@material-ui/core";
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Menu from '@material-ui/core/Menu';
-// import {
-//   Menu as MenuIcon,
-//   Person as AccountIcon,
-// } from "@material-ui/icons";
-// import { AuthContext } from '../../../context/auth-context';
-// import classesInternal from './Toolbar.module.css';
-// import classNames from "classnames";
-// // styles
-// import useStyles from "../../../styles";
-
-// const ToolbarMenu = (props) => {
-
-//   const authContext = useContext(AuthContext);
-//   var [profileMenu, setProfileMenu] = useState(null);
-//   var classes = useStyles();
-
-
-//   const logOut = () => {
-//     authContext.logout();
-//   };
-//   return (
-//     <AppBar position="fixed">
-//       <Toolbar>
-//         <Typography variant="h6" className={classes.title}>
-//           Domino's Pizza
-//           </Typography>
-//         {/* <NavLink exact activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/home">Home</NavLink>
-//         {authContext.isAdmin === 1 &&
-//           <NavLink activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/users">Users</NavLink>} */}
-//         {/* <Button color="inherit" onClick={logOut} >Logout</Button> */}
-//         <Menu
-//           id="profile-menu"
-//           open={Boolean(profileMenu)}
-//           anchorEl={profileMenu}
-//           onClose={() => setProfileMenu(null)}
-//           className={classes.headerMenu}
-//           classes={{ paper: classes.profileMenu }}
-//           disableAutoFocusItem
-//         >
-//           <MenuItem
-//             className={classNames(
-//               classes.profileMenuItem,
-//               classes.headerMenuItem,
-//             )}
-//           >
-//             <AccountIcon className={classes.profileMenuIcon} /> Profile
-//           </MenuItem>
-//           <div className={classes.profileMenuUser}>
-//             <Typography
-//               className={classes.profileMenuLink}
-//               color="primary"
-//               onClick={logOut}
-//             >
-//               Sign Out
-//             </Typography>
-//           </div>
-//         </Menu>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// }
-
-// export default ToolbarMenu;  
