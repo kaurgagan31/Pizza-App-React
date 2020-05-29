@@ -152,4 +152,26 @@ export default makeStyles(theme => ({
   title: {
     flexGrow: 1,
   },
+  profileMenu: {
+    minWidth: 200,
+  },
+  profileMenuUser: {
+    display: "flex",
+    flexDirection: "column",
+    padding: theme.spacing(2),
+  },
+  profileMenuItem: {
+    color: theme.palette.text.hint,
+  },
+  profileMenuIcon: {
+    marginRight: theme.spacing(2),
+    color: theme.palette.text.hint,
+  },
+  profileMenuLink: {
+    fontSize: 16,
+    textDecoration: "none",
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
 }));
