@@ -1,29 +1,37 @@
 import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button
+  } from "@material-ui/core";
 import { AuthContext } from '../../../context/auth-context';
-import classes from './Toolbar.module.css';
+import classesInternal from './Toolbar.module.css';
 
-const Toolbar = (props) => {
+// styles
+import useStyles from "../../../styles";
+
+const ToolbarMenu = (props) => {
 
     const authContext = useContext(AuthContext);
-    console.log(authContext);
-
+    var classes = useStyles();
     const logOut = () => {
         authContext.logout();
     };
-
     return (
-        <header className={classes.Toolbar}>
+        <AppBar position="fixed">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
             Domino's Pizza
-
-            <div className={classes.Navigation}>
-                <Link className={classes.NavigationItem} to="/app/home">Home</Link>
-                {authContext.isAdmin === 1 && 
-                <Link className={classes.NavigationItem} to="/app/users">Users</Link> }
-                <button onClick={logOut}>Log Out</button>
-            </div>
-        </header>
+          </Typography>
+                 <NavLink exact activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/home">Home</NavLink>
+             {authContext.isAdmin === 1 && 
+               <NavLink  activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/users">Users</NavLink> }
+          <Button color="inherit" onClick={logOut} >Logout</Button>
+        </Toolbar>
+      </AppBar>
     );
 }
                          
-export default Toolbar;  
+export default ToolbarMenu;  

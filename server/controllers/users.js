@@ -8,7 +8,6 @@ const User = require('../models/users');
  */
 
 const logIn = (req, res) => {
-    console.log(req.body);
     User.findOne({
         email: req.body.email,
         is_deleted: 0
@@ -25,7 +24,6 @@ const logIn = (req, res) => {
         }
     })
 }
-
 
 /**save form data */
 
@@ -52,7 +50,6 @@ const saveFormData = async (req, res) => {
                     await user.save()
                     return res.status(200).json({ message: 'Success', status: 200 })
                 } catch (err) {
-                    console.error(err)
                     return res.status(500).json({ message: 'Failed to save user form data' })
                 }
             } else {
@@ -77,7 +74,6 @@ const getUserData = async (req, res) => {
 /** Search user by filter */
 
 const searchUser = async (req, res) => {
-    console.log(req.body);
     try {
         const first_name = req.body.firstName;
         const gender = req.body.gender;
@@ -112,7 +108,6 @@ const searchUser = async (req, res) => {
             }
         }
         const users = await User.find(query);
-        console.log(users);
         if (users.length !== undefined) {
             return res.status(200).json({ status: 200, users: users })
         } else {

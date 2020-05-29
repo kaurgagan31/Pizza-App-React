@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Typography, Button } from '@material-ui/core';
 import UserListing from '../../components/UserListing/UserListing';
+import {AuthContext} from '../../context/auth-context';
 import Loader from '../../components/Loader/Loader';
 import Search from '../../components/Search/Search';
 import classes from './Users.module.css';
@@ -9,11 +10,15 @@ const Users = () => {
 
     const [userList, setUser] = useState([]);
     const [isLoading, setLoading] = useState(false);
-
+    const authContext = useContext(AuthContext);
     useEffect(() => {
         console.log('inside useEffects');
         setLoading(true);
-        fetch('http://localhost:8000/api/getUsers')
+        fetch('http://localhost:8000/api/getUsers', {
+            headers: {
+                'x-access-token': authContext.currentUser.token
+            }
+        })
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.status === 200) {
@@ -29,6 +34,7 @@ const Users = () => {
             method: "POST",
             headers: {
                 "content-type": "application/json",
+                'x-access-token': authContext.currentUser.token,
             },
             body: JSON.stringify(values)
         })

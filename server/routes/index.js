@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const connect= require('../middleware/connect');
+const auth = require('../middleware/auth');
 const users = require('../controllers/users');
 const path = require("path");
 const multer = require("multer");
@@ -21,8 +22,8 @@ const storage = multer.diskStorage({
  router.route('/log_in')
  .post(users.logIn);
 router.post('/saveFormData', upload, users.saveFormData);
-router.get('/getUsers', users.getUserData);
-router.post('/searchUsers', users.searchUser);
+router.get('/getUsers', auth, users.getUserData);
+router.post('/searchUsers', auth, users.searchUser);
 
 module.exports = router;  
 

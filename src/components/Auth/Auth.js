@@ -1,30 +1,20 @@
 import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import {
+  Grid,
+  Divider,
+  Typography,
+  Button,
+  Fade,
+} from "@material-ui/core";
 import { AuthContext } from '../../context/auth-context';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import classes from './Auth.module.css';
-
-
-const useStyles = makeStyles({
-  root: {
-    width: 500,
-  },
-});
-
+import useStyles from "../../styles";
 
 const Auth = props => {
   var authContext = useContext(AuthContext);
+  var classes = useStyles();
 
-  // const loginHandler = () => {
-  //   authContext.login();
-  // };
-  
   return (
 
     <Formik
@@ -40,35 +30,45 @@ const Auth = props => {
       }}
     >
       {({ values }) => (
-        <Card className={classes.root}>
-          <CardContent>
-            <Typography variant="h5" component="h5">
-              You are not authenticated!
+
+        <Grid container className={classes.container}>
+          <div className={classes.formContainer}>
+            <Typography variant="h1" className={classes.greeting}>
+              Hello, User
           </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography variant="h3" color="textSecondary">
               Please log in to continue.
           </Typography>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="center"
-            >
-              <Form>
-                <label htmlFor="email">Email address</label>
-                <Field className={classes.Search} name="email" type="email" />
-                <ErrorMessage name="email" />
-                <Button color="default" type="submit">
-                  Login</Button>
-                {/* <button className={classes.SearchButton} type="submit">Login</button> */}
-              </Form>
-            </Grid>
-          </CardContent>
-        </Card>
+            <Divider className={classes.divider} />
+              <Fade in={authContext.isError}>
+                <Typography color="secondary" className={classes.errorMessage}>
+                  Something is wrong with your login or password :(
+                </Typography>
+              </Fade>
+              <Form className={classes.formContainer}>
+                <Typography>Enter Email Address</Typography>
+                <Field
+                  InputProps={{
+                    classes: {
+                      underline: classes.textFieldUnderline,
+                      input: classes.textField,
+                    },
+                  }} name="email" type="email" />
+                <ErrorMessage name="email" className={classes.errorMessage} />
+                  <Button className={classes.formButtons} color="default" type="submit">
+                    Login</Button>
+              </Form> 
+              <Typography color="primary" className={classes.copyright}>
+          © 2020 Gaganjot Kaur, All rights reserved.
+        </Typography>
+          </div>
+
+        </Grid>
       )}
     </Formik>
+
   );
- 
+
 };
 
 export default Auth;

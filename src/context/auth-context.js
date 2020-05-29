@@ -40,6 +40,7 @@ const AuthContextProvider = props => {
                     setAdminValue(responseData.user.role_id);
                     setCurrentUser(responseData.user);
                     setIsAuthenticated(true);
+                    setError(false);
                     history.push('/');
                 } else if(responseData.status === "103") {
                     setError(true);
@@ -52,6 +53,7 @@ const AuthContextProvider = props => {
         setCurrentUser(null);
         setAdminValue(null);
         setIsAuthenticated(false);
+        setError(false);
         history.push('/auth');
     };
 
