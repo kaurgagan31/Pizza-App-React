@@ -36,10 +36,7 @@ const modal = React.memo(props => {
                                         </select>
     
                                     </div>
-                                    <div className={classes.Content}>
-                                        
-                                        {/* <div onClick={() => this.props.changedProperty('toppings', 'Yes')} className={classes.Size}>Add Toppings @ 35 $</div> */}
-    
+                                    <div className={classes.Content}>    
                                         <input type="checkbox" onChange={() => props.changedProperty('toppings', 'Yes')} /> Add Toppings @ 35 $<br />
     
                                     </div>

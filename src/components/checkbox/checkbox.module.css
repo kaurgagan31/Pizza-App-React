@@ -1,0 +1,17 @@
+.Error {
+    color: red;
+    font-size: 12px;
+}
+
+.radioLabel{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.radio {
+  margin: 10px 10px 10px 0px;
+  font-weight: bold;
+  color:rgb(20, 95, 117);
+
+}

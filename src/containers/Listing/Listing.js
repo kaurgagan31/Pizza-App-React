@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import classes from './Listing.module.css';
-import Cart from '../Cart/Cart';
-import data from '../../../json/pizzaList';
-import Pizza from '../../Pizza/Pizza';
-import Modal from '../../Modal/Modal';
+import Cart from '../../components/Navigation/Cart/Cart';
+import data from '../../json/pizzaList.json';
+import Pizza from '../../components/Pizza/Pizza';
+import Modal from '../../components/Modal/Modal';
 
 const pizzas = data.pizzas;
 const initialCustomPizzaData = {

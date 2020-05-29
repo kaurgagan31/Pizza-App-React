@@ -1,0 +1,84 @@
+input[type="email"],
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  width: 320px;
+  padding: 5px;
+  border-color: rgb(40, 182, 218);
+  
+}
+
+.FormData {
+    display: flex;
+    flex-direction: column;
+}
+.Footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+h1{
+    color: rgb(255, 115, 0);
+}
+
+label {
+  margin: 10px 10px 10px 0px;
+  font-weight: bold;
+  color:rgb(20, 95, 117);
+}
+
+label.checkbox {
+  font-weight: normal;
+}
+
+button[type="submit"] {
+  margin-top: 1rem;
+  width: 100px;
+  height: 40px;
+  font-weight: bolder;
+  font-size: 16px;
+  color: rgb(2, 110, 2);
+ 
+}
+button[type="reset"] {
+    margin-top: 1rem;
+    width: 100px;
+    height: 40px;
+    font-weight: bolder;
+    font-size: 16px;
+    color: rgb(245, 72, 101);
+   
+  }
+
+  button[type="submit"]:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    color: rgb(45, 145, 45);
+  }  
+.Error {
+    color: red;
+    font-size: 12px;
+}
+
+.radioLabel{
+  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.radio {
+  margin: 10px 10px 10px 0px;
+  font-weight: bold;
+  color:rgb(20, 95, 117);
+
+}
+
+.Main {
+  margin: auto;
+  border: 0.5px solid black;
+  padding: 20px;
+  width: 350px;
+}
+
