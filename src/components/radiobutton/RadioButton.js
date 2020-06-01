@@ -1,7 +1,8 @@
+import React from 'react';
 import classes from './radiobutton.module.css';
 
 // Radio input
-export const RadioButton = ({
+const RadioButton = ({
   field: { name, value, onChange, onBlur },
   id,
   label,
@@ -26,23 +27,5 @@ export const RadioButton = ({
   );
 };
 
-// Radio group
-export const RadioButtonGroup = ({
-  value,
-  error,
-  touched,
-  id,
-  label,
-  name,
-  children
-}) => {
-  return (
-      <div className={classes.radioLabel}>
-          <label htmlFor={name} > {label} </label>
-          {children}
-          {touched && error ? (
-              <div className={classes.Error}>{error}</div>
-          ) : null}
-      </div>
-  );
-};
+
+export default RadioButton;

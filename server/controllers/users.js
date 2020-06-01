@@ -19,8 +19,8 @@ const logIn = (req, res) => {
             return res.status(500).json({ status: "103", message: 'User doesnot exists' })
         } else if (userData) {
             var token = jwt.sign(userData.toJSON(), process.env.supersecret, {});
-            var usr = { id: userData._id, first_name: userData.first_name, last_name: userData.last_name, email: userData.email, role_id: userData.role, token: token };
-            return res.status(200).json({ status: "100", user: usr });
+            var usr = { id: userData._id, first_name: userData.first_name, last_name: userData.last_name, email: userData.email, gender: userData.gender, jobType: userData.jobType, role_id: userData.role };
+            return res.status(200).json({ status: "100", user: usr, token: token });
         }
     })
 }
@@ -58,6 +58,40 @@ const saveFormData = async (req, res) => {
         })
 }
 
+/**update form data */
+
+const updateFormData = async (req, res) => {
+    const formValues = req.body;
+    const data = {
+        _id: formValues.id,
+        email: formValues.email,
+        first_name: formValues.firstName,
+        last_name: formValues.lastName,
+        jobType: formValues.jobType,
+        gender: formValues.gender,
+    };
+    try {
+        const user = await User.findById(formValues.id);
+        if (!user)
+            return res.status(422).json({
+                status: '103',
+                message: 'User does not exist'
+            });
+        Object.assign(user, data);
+        const userData = await user.save();
+        var usr = { id: userData._id, first_name: userData.first_name, last_name: userData.last_name, email: userData.email, gender: userData.gender, jobType: userData.jobType, role_id: userData.role };
+        return res.status(200).json({
+            status: '100',
+            user: usr,
+            
+        });
+    } catch (err) {
+        return res.status(500).json({
+            status: '102',
+            message: 'Failed to update User'
+        });
+    }
+}
 /**show User Listing */
 
 const getUserData = async (req, res) => {
@@ -120,4 +154,4 @@ const searchUser = async (req, res) => {
     }
 }
 
-module.exports = { logIn, saveFormData, getUserData, searchUser };
+module.exports = { logIn, saveFormData, updateFormData, getUserData, searchUser };

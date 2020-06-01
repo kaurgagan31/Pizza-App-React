@@ -1,0 +1,8 @@
+.EditForm{
+    margin-top: 100px;
+}
+
+input:disabled {
+    background: rgb(235, 228, 228);
+    cursor: not-allowed;
+  }

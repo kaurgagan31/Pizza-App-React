@@ -1,30 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 
-
-var user = window.localStorage.getItem('currentUser');
+var user = localStorage.getItem('currentUser');
+var token =  localStorage.getItem('token');
 export const AuthContext = React.createContext({
     isAuth: user ,
     isAdmin: 0,
     currentUser: {},
     isError: false,
+    userToken: '',
+    updateUser: () => {},
     login: () => { },
     logout: () => { }
 });
 
 let isLogged = user !== '' && user !== null ? true : false;
 let loggedInUser = user !== null ? JSON.parse(user) : null;
+let usrToken = token !== null ? token: null;
 let adminUser = loggedInUser !== null ? loggedInUser.role_id: null;
 
 const AuthContextProvider = props => {
     const [isAuthenticated, setIsAuthenticated] = useState(isLogged);
     const [isAdminValue, setAdminValue] = useState(adminUser);
     const [currUser, setCurrentUser] = useState(loggedInUser);
+    const [token, setToken] = useState(usrToken);
     const [error, setError] = useState(false);
     const history = useHistory();
 
     const loginHandler = (data) => {
-        console.log(data);
         fetch('http://localhost:8000/api/log_in', {
             method: "POST",
             headers: {
@@ -35,9 +38,10 @@ const AuthContextProvider = props => {
             .then(response => response.json())
             .then(responseData => {
                 if (responseData.status === "100") {
-                    console.log(responseData);
                     localStorage.setItem('currentUser', JSON.stringify(responseData.user));
+                    localStorage.setItem('token', responseData.token);
                     setAdminValue(responseData.user.role_id);
+                    setToken(responseData.token);
                     setCurrentUser(responseData.user);
                     setIsAuthenticated(true);
                     setError(false);
@@ -48,8 +52,15 @@ const AuthContextProvider = props => {
             });
     };
 
+    const userHandler = (data) => {
+        localStorage.setItem('currentUser', JSON.stringify(data));
+        setCurrentUser(data);
+    }
+
     const logoutHandler = () => {
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
+        setToken(null);
         setCurrentUser(null);
         setAdminValue(null);
         setIsAuthenticated(false);
@@ -59,7 +70,7 @@ const AuthContextProvider = props => {
 
     return (
         <AuthContext.Provider
-            value={{ login: loginHandler, logout: logoutHandler, isAuth: isAuthenticated, isAdmin: isAdminValue, currentUser: currUser, isError: error }}
+            value={{ login: loginHandler, logout: logoutHandler, updateUser: userHandler, isAuth: isAuthenticated, isAdmin: isAdminValue, currentUser: currUser, userToken: token, isError: error }}
         >
             {props.children}
         </AuthContext.Provider>

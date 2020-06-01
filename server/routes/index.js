@@ -22,6 +22,7 @@ const storage = multer.diskStorage({
  router.route('/log_in')
  .post(users.logIn);
 router.post('/saveFormData', upload, users.saveFormData);
+router.post('/updateFormData',auth,  users.updateFormData);
 router.get('/getUsers', auth, users.getUserData);
 router.post('/searchUsers', auth, users.searchUser);
 

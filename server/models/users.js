@@ -32,14 +32,12 @@ const schema = new Schema({
     },
     hobbies: {
         type: Array,
-        required: true
     },
     role: {
         type: Number, default: 0
     },
     accepted: {
         type: Boolean,
-        required: true
     },
     is_deleted :{ type: Number, default: 0 }
 },

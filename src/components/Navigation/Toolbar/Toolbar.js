@@ -2,12 +2,10 @@ import React, { useContext, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../context/auth-context';
 import classesInternal from './Toolbar.module.css';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -39,15 +37,12 @@ export default function MenuAppBar() {
   }
 
   return (
-    <div className={classes.root}>
-
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Domino's Pizza
           </Typography>
           {auth && (
-
             <div>
               {authContext.isAdmin === 1 ? <Typography variant="h6">Welcome Admin </Typography> : <Typography variant="h6">Welcome User</Typography>}
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -72,15 +67,7 @@ export default function MenuAppBar() {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
                 open={open}
                 onClose={handleClose}
                 classes={{ paper: classes.profileMenu }}
@@ -92,6 +79,6 @@ export default function MenuAppBar() {
           )}
         </Toolbar>
       </AppBar>
-    </div>
+  
   );
 }

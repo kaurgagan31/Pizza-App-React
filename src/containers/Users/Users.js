@@ -12,11 +12,10 @@ const Users = () => {
     const [isLoading, setLoading] = useState(false);
     const authContext = useContext(AuthContext);
     useEffect(() => {
-        console.log('inside useEffects');
         setLoading(true);
         fetch('http://localhost:8000/api/getUsers', {
             headers: {
-                'x-access-token': authContext.currentUser.token
+                'x-access-token': authContext.userToken
             }
         })
             .then(response => response.json())
@@ -29,12 +28,11 @@ const Users = () => {
     }, []);
 
     const searchHandler = (values) => {
-        console.log(values);
         fetch('http://localhost:8000/api/searchUsers', {
             method: "POST",
             headers: {
                 "content-type": "application/json",
-                'x-access-token': authContext.currentUser.token,
+                'x-access-token': authContext.userToken,
             },
             body: JSON.stringify(values)
         })

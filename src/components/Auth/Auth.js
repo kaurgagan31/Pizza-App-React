@@ -46,9 +46,9 @@ const Auth = props => {
                 </Typography>
               </Fade>
               <Form className={classes.formContainer}>
-                <Typography>Enter Email Address</Typography>
+                <Typography color="secondary">Enter Email Address</Typography>
                 <Field
-                  InputProps={{
+                  inputProps={{
                     classes: {
                       underline: classes.textFieldUnderline,
                       input: classes.textField,
@@ -62,7 +62,6 @@ const Auth = props => {
           © 2020 Gaganjot Kaur, All rights reserved.
         </Typography>
           </div>
-
         </Grid>
       )}
     </Formik>

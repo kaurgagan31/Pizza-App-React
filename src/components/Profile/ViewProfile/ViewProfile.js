@@ -1,178 +1,159 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import React, { useState, useContext } from 'react';
+import { Typography, Button, Grid, Divider } from '@material-ui/core';
+import { Formik, Field, Form, ErrorMessage, setFieldValue } from 'formik';
+import  RadioButtonGroup  from '../../radiobutton/RadioButtonGroup';
+import RadioButton from '../../radiobutton/RadioButton';
+import  MySelect from '../../Select/Select';
 import { AuthContext } from '../../../context/auth-context';
 import * as Yup from 'yup';
+import useStyles from "../../../styles";
 
-const ViewProfile = () => {
-    const authContext = useContext(AuthContext);     
+const ViewProfile = (props) => {
+    const authContext = useContext(AuthContext);
+    const [isSuccess, setSuccess] = useState(false);
+    var classes = useStyles();
     const initialValues = {
-        firstName: '',
-        lastName: '',
-        email: '',
-       
+        firstName: authContext.currentUser.first_name,
+        lastName: authContext.currentUser.last_name,
+        email: authContext.currentUser.email,
+        gender: authContext.currentUser.gender,
+        jobType: authContext.currentUser.jobType
+
     };
-        const validationSchema = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
         firstName: Yup.string()
             .required('First Name is required'),
         lastName: Yup.string()
             .required('Last Name is required'),
         email: Yup.string()
             .email('Email is invalid')
-            .required('Email is required')
+            .required('Email is required'),
+        gender: Yup.string().required("A radio option is required"),
+        jobType: Yup.string()
+        .oneOf(
+            ['designer', 'development', 'product', 'other'],
+            'Invalid Job Type'
+        )
+        .required('Required'),
     });
-        function onSubmit(fields, { setStatus, setSubmitting }) {
-
+    function onSubmit(values, { setStatus, setSubmitting }) {
+        console.log(values);
+        let formValues = values;
+        setSuccess(false);
+        formValues['id'] = authContext.currentUser.id;
+        fetch('http://localhost:8000/api/updateFormData', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+                'x-access-token': authContext.userToken,
+            },
+            body: JSON.stringify(formValues)
+        })
+            .then((result) => result.json())
+            .then((info) => {
+                console.log(info);
+                
+                if(info.status === '100') {
+                    setSuccess(true);
+                    console.log(isSuccess);
+                    setSubmitting(false);
+                    setStatus();
+                    authContext.updateUser(info.user); 
+                }
+               
+            })
     }
-    const [user, setUser] = useState({});
-    // useEffect(() => {
-    //     const userData = authContext.currentUser;
-    //     console.log(userData);
-    //             const fields = ['firstName', 'lastName', 'email',];
-    //             fields.forEach(field => setFieldValue(field, user[field], false));
-    //             setUser(user);
-        
-    // }, []);
-return (
-           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-            {({ errors, touched, isSubmitting, setFieldValue }) => {
-      
 
+    return (
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+            {({ errors, touched, values, isSubmitting, setFieldValue }) => {
                 return (
-                    <Form>
-                        <div className="form-row">
-                            <div className="form-group col-5">
-                                <label>First Name</label>
-                                <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-                                <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-                            </div>
-                            <div className="form-group col-5">
-                                <label>Last Name</label>
-                                <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-                                <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-                            </div>
+                    <Grid container className={classes.container}>
+                      
+                        <div className={classes.formContainer}>
+                        { isSuccess && <div>
+                        <Typography variant="h5" color="secondary" className={classes.greeting}>
+                                User Updated Successfully ..!!
+                            </Typography>
+                        </div> } 
+                            <Typography variant="h3" className={classes.greeting}>
+                                View and Edit your Profile
+                            </Typography>
+                            <Divider className={classes.divider} />
+                            <Form className={classes.formContainer}>
+                                <Grid container direction="row" justify="space-between" alignItems="center">
+                                    <label>Last Name</label>
+                                    <Field
+                                        name="firstName"
+                                        type="text"
+                                        className={classes.inputField}
+                                    />
+                                    <ErrorMessage name="firstName" />
+                                    <label>Last Name</label>
+                                    <Field
+                                        name="lastName"
+                                        type="text"
+                                        className={classes.inputField}
+                                    />
+                                    <ErrorMessage name="lastName" />
+                                    <label>Email</label>
+                                    <Field
+                                        name="email"
+                                        type="email"
+                                        className={classes.inputField}
+                                        disabled />
+                                    <ErrorMessage name="email" />
+                                    <RadioButtonGroup
+                                        id="gender"
+                                        name="Gender"
+                                        label="Select Gender"
+                                        value={values.gender}
+                                        error={errors.gender}
+                                        touched={touched.gender}
+                                    >
+                                        <Field
+                                            component={RadioButton}
+                                            name="gender"
+                                            id="male"
+                                            label="Male"
+                                        />
+                                        <Field
+                                            component={RadioButton}
+                                            name="gender"
+                                            id="female"
+                                            label="Female"
+                                        />
+                                    </RadioButtonGroup>
+                                    <MySelect label="Job Type" name="jobType" value={values.jobType}>
+                                    <option value="">Select a job type</option>
+                                    <option value="designer">Designer</option>
+                                    <option value="development">Developer</option>
+                                    <option value="product">Product Manager</option>
+                                    <option value="other">Other</option>
+                                </MySelect>
+                                </Grid>
+                                <Grid container direction="column" className={classes.formButton} alignItems="center">
+
+                                    <Button
+                                        type="submit"
+                                        color="secondary"
+                                        disabled={isSubmitting}>
+                                        Save
+                            </Button>
+                                    <Button
+                                        type="button"
+                                        onClick={() => props.history.push('/app')}
+                                    >
+                                        Cancel
+                            </Button>
+                                </Grid>
+                            </Form>
                         </div>
-                        <div className="form-row">
-                            <div className="form-group col-7">
-                                <label>Email</label>
-                                <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-                                <ErrorMessage name="email" component="div" className="invalid-feedback" />
-                            </div>
-                        
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-                                {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Save
-                            </button>
-                            <Link to='/' className="btn btn-link">Cancel</Link>
-                        </div>
-                    </Form>
+                    </Grid>
                 );
             }}
         </Formik>
-);
+    );
 }
 
 export default ViewProfile;
-
-
-// import React, { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
-// import { Formik, Field, Form, ErrorMessage } from 'formik';
-// import * as Yup from 'yup';
-
-
-// const AddEdit = ({ history, match }) => {
-//     const { id } = match.params;
-//     const isAddMode = !id;
-    
-//     const initialValues = {
-//         firstName: '',
-//         lastName: '',
-//         email: '',
-//         role: '',
-//         password: '',
-//         confirmPassword: ''
-//     };
-
-//     const validationSchema = Yup.object().shape({
-//         firstName: Yup.string()
-//             .required('First Name is required'),
-//         lastName: Yup.string()
-//             .required('Last Name is required'),
-//         email: Yup.string()
-//             .email('Email is invalid')
-//             .required('Email is required')
-//     });
-
-//     function onSubmit(fields, { setStatus, setSubmitting }) {
-//         setStatus();
-
-//     }
-
-
-//     return (
-//         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-//             {({ errors, touched, isSubmitting, setFieldValue }) => {
-//                 const [user, setUser] = useState({});
-//                 useEffect(() => {
-//                     if (!isAddMode) {
-//                         // get user and set form fields
-//                         userService.getById(id).then(user => {
-//                             const fields = ['title', 'firstName', 'lastName', 'email', 'role'];
-//                             fields.forEach(field => setFieldValue(field, user[field], false));
-//                             setUser(user);
-//                         });
-//                     }
-//                 }, []);
-
-//                 return (
-//                     <Form>
-//                         <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
-//                         <div className="form-row">
-//                             <div className="form-group col">
-//                                 <label>Title</label>
-//                                 <Field name="title" as="select" className={'form-control' + (errors.title && touched.title ? ' is-invalid' : '')}>
-//                                     <option value=""></option>
-//                                     <option value="Mr">Mr</option>
-//                                     <option value="Mrs">Mrs</option>
-//                                     <option value="Miss">Miss</option>
-//                                     <option value="Ms">Ms</option>
-//                                 </Field>
-//                                 <ErrorMessage name="title" component="div" className="invalid-feedback" />
-//                             </div>
-//                             <div className="form-group col-5">
-//                                 <label>First Name</label>
-//                                 <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
-//                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
-//                             </div>
-//                             <div className="form-group col-5">
-//                                 <label>Last Name</label>
-//                                 <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
-//                                 <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
-//                             </div>
-//                         </div>
-//                         <div className="form-row">
-//                             <div className="form-group col-7">
-//                                 <label>Email</label>
-//                                 <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-//                                 <ErrorMessage name="email" component="div" className="invalid-feedback" />
-//                             </div>
-                        
-//                         </div>
-//                         <div className="form-group">
-//                             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
-//                                 {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-//                                 Save
-//                             </button>
-//                             <Link to='/' className="btn btn-link">Cancel</Link>
-//                         </div>
-//                     </Form>
-//                 );
-//             }}
-//         </Formik>
-//     );
-// }
-
-// export default  AddEdit ;
