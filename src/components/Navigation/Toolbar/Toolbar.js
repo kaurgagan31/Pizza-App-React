@@ -46,11 +46,14 @@ export default function MenuAppBar() {
             <div>
               {authContext.isAdmin === 1 ? <Typography variant="h6">Welcome Admin </Typography> : <Typography variant="h6">Welcome User</Typography>}
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                <NavLink exact activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/home">Home</NavLink>
-              </IconButton>
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                 {authContext.isAdmin === 1 &&
                   <NavLink activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/users">Users</NavLink>}
+              </IconButton>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <NavLink exact activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/survey">Survey</NavLink>
+              </IconButton>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <NavLink exact activeClassName={classesInternal.active} className={classesInternal.NavigationItem} to="/app/home">Home</NavLink>
               </IconButton>
               <IconButton
                 aria-label="account of current user"
@@ -63,7 +66,6 @@ export default function MenuAppBar() {
               </IconButton>
               <div>
               </div>
-
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}

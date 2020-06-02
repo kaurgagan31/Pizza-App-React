@@ -6,6 +6,7 @@ import Listing from '../../containers/Listing/Listing';
 import Users from '../../containers/Users/Users';
 import Formik from '../../containers/formik/formik';
 import Profile from '../../components/Profile/ViewProfile/ViewProfile';
+import QuestionListing from '../../containers/Questions/QuestionListings';
 
 class Layout extends Component {
     render() {
@@ -17,6 +18,7 @@ class Layout extends Component {
                     <Route path="/app/home" exact component={Listing} />
                     <Route path="/app/add-user" component={Formik} />
                     <Route path="/app/view-user" component={Profile} />
+                    <Route path="/app/survey" component={QuestionListing} />
                 </Switch>
             </Aux>
         );

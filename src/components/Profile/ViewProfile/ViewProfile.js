@@ -18,7 +18,6 @@ const ViewProfile = (props) => {
         email: authContext.currentUser.email,
         gender: authContext.currentUser.gender,
         jobType: authContext.currentUser.jobType
-
     };
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -37,7 +36,6 @@ const ViewProfile = (props) => {
         .required('Required'),
     });
     function onSubmit(values, { setStatus, setSubmitting }) {
-        console.log(values);
         let formValues = values;
         setSuccess(false);
         formValues['id'] = authContext.currentUser.id;
@@ -50,17 +48,13 @@ const ViewProfile = (props) => {
             body: JSON.stringify(formValues)
         })
             .then((result) => result.json())
-            .then((info) => {
-                console.log(info);
-                
+            .then((info) => {                
                 if(info.status === '100') {
                     setSuccess(true);
-                    console.log(isSuccess);
                     setSubmitting(false);
                     setStatus();
                     authContext.updateUser(info.user); 
-                }
-               
+                } 
             })
     }
 
@@ -155,5 +149,5 @@ const ViewProfile = (props) => {
         </Formik>
     );
 }
-
+                                                                  
 export default ViewProfile;

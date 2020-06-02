@@ -1,0 +1,87 @@
+{
+    "questions": [
+        {
+            "id": "Q01",
+            "type": "input",
+            "title": "Please Enter your name",
+            "nextStep": "Q02",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        },
+        {
+            "id": "Q02",
+            "type": "select",
+            "options": [
+                "male",
+                "female"
+            ],
+            "title": "Select your gender",
+            "nextStep": "Q03",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        },
+        {
+            "id": "Q03",
+            "type": "check",
+            "options": [
+                "Indian",
+                "NRI"
+            ],
+            "title": "Select your nationality",
+            "conditions": [
+                {
+                    "value": "Indian",
+                    "nextStep": "Q04"
+                },
+                {
+                    "value": "NRI",
+                    "nextStep": "Q05"
+                }
+            ],
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        },
+        {
+            "id": "Q04",
+            "type": "input",
+            "title": "Which state do you belong?",
+            "nextStep": "Q06",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        },
+        {
+            "id": "Q05",
+            "type": "input",
+            "title": "Which country do you belong?",
+            "nextStep": "Q06",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        },
+        {
+            "id": "Q06",
+            "type": "input",
+            "title": "Give us ratings out of 5",
+            "nextStep": "",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        }
+    ]
+}
