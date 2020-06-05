@@ -5,16 +5,53 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Input from '../../Form/Input/Input';
 import Select from '../../Form/Select/Select';
+import Radio from '../../Form/Radio/Radio';
+import CheckboxList from '../../Form/Checkbox/CheckboxList';
 import useStyles from "./styles";
 
 const Question = (props) => {
+    console.log(props);
     const [quesValue, setQuesValue] = useState('');
     const [isDisabled, setDisabled] = useState(true);
+    const [isAllSelected, setAllSelected] = useState(false);
     var classes = useStyles();
 
     const handleChange = (event) => {
         setQuesValue(event.target.value);
         event.target.value.length > 0 ? setDisabled(false) : setDisabled(true);
+    }
+    const handleCheckBoxChange = (checkName, isChecked) => {
+        let isAllChecked = (checkName === 'all' && isChecked);
+        let isAllUnChecked = (checkName === 'all' && !isChecked);
+        const checked = isChecked;
+        const checkList = props.question.options.map((option, index) => {
+            if (isAllChecked || option.value === checkName) {
+                return Object.assign({}, option, {
+                    checked,
+                });
+            } else if (isAllUnChecked) {
+                return Object.assign({}, option, {
+                    checked: false,
+                });
+            }
+            return option;
+        });
+        let isAllSelectedValue = (checkList.findIndex((item) => item.checked === false) === -1) || isAllChecked;
+        let checkedValues = checkList.filter(e => { return e.checked === true });
+        let checkedArray = []
+        checkedValues.map((v, i) => {
+            checkedArray.push(v.value);
+        });
+        props.question.options = checkList;
+        setQuesValue(checkedArray);
+        setAllSelected(isAllSelectedValue);
+        checkedArray.length !== 0 ? setDisabled(false) : setDisabled(true);
+    }
+
+    const prevInputs = () => {
+        setQuesValue(props.prev.answer);
+        setDisabled(false);
+        props.prevQuesInputs(props.number);
     }
 
     const saveInputs = () => {
@@ -25,7 +62,7 @@ const Question = (props) => {
         } else {
             nextValue = props.question.nextStep;
         }
-        props.saveQuesInputs(props.question.title, quesValue, nextValue);
+        props.saveQuesInputs(props.question.title, quesValue, nextValue, props.question.id);
         setQuesValue('');
         setDisabled(true);
     }
@@ -41,10 +78,33 @@ const Question = (props) => {
                         onChange={handleChange} />
                 </div>
             );
+            case 'radio': return (
+                <div>
+                    <Radio
+                        id={props.question.id}
+                        name={props.question.name}
+                        label={props.question.title}
+                        options={props.question.options}
+                        value={quesValue}
+                        onChange={handleChange}
+                    />
+                </div>
+            );
+            case 'check': return (
+                <div>
+                    <CheckboxList
+                        id={props.question.id}
+                        label={props.question.title}
+                        options={props.question.options}
+                        isCheckedAll={isAllSelected}
+                        onCheck={handleCheckBoxChange}
+                    />
+                </div>
+            );
             case 'select': return (
                 <div>
                     <Select
-                        name={props.question.name}
+                        id={props.question.id}
                         label={props.question.title}
                         options={props.question.options}
                         value={quesValue}
@@ -57,27 +117,40 @@ const Question = (props) => {
 
     return (
         <>
-         <Grid container direction="column" justify="space-between" alignItems="center">
-             <Card className={classes.root} variant="outlined">
-             <CardContent>
-             {renderSwitch()}
-             </CardContent>
-             <CardActions>
-            <Grid item xs={6}>
-                {/* {props.number !== 0 ? <Button color="primary" size="large" >
-                    Prev</Button> : null} */}
-                {
-                    props.number !== 7 ? <Button color="secondary" size="large" onClick={saveInputs} disabled={isDisabled}>
-                        Next</Button> : null
-                }
-                {
-                    props.number == 7 ? <Button color="secondary" size="large" onClick={saveInputs} disabled={isDisabled}>
-                        Submit</Button> : null
-                }
-            </Grid>
-            </CardActions>
-             </Card>
-            
+            <Grid container direction="column" justify="space-between" alignItems="center">
+                <Card className={classes.root} variant="outlined">
+                    <CardContent>
+                        {renderSwitch()}
+                    </CardContent>
+                    <CardActions>
+                        <Grid container direction="row" >
+                            {
+                                props.prev !== null ?
+                                    <Button color="primary" size="large" onClick={prevInputs}>
+                                        Prev
+                                    </Button>
+                                    :
+                                    null
+                            }
+                            {
+                                props.number !== (props.total - 1) ?
+                                    <Button color="secondary" size="large" onClick={saveInputs} disabled={isDisabled}>
+                                        Next
+                                    </Button>
+                                    :
+                                    null
+                            }
+                            {
+                                props.number == (props.total - 1) ? <Button color="secondary" size="large" onClick={saveInputs} disabled={isDisabled}>
+                                    Submit
+                                    </Button>
+                                    :
+                                    null
+                            }
+                        </Grid>
+                    </CardActions>
+                </Card>
+
             </Grid>
         </>
     )

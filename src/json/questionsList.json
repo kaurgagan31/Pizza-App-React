@@ -14,12 +14,24 @@
         },
         {
             "id": "Q02",
-            "type": "select",
+            "type": "radio",
             "name": "gender",
             "options": [
-                {"value": "", "label": "Select Gender"},
-                {"value": "male", "label": "Male"},
-                {"value": "female", "label": "Female"}
+                {
+                    "value": "Male", 
+                    "label": "Male", 
+                    "name": "gender"
+                },
+                {
+                    "value": "Female", 
+                    "label": "Female", 
+                    "name": "gender"
+                },
+                {
+                    "value": "Others", 
+                    "label": "Others", 
+                    "name": "gender"
+                }
             ],
             "title": "Select your gender",
             "nextStep": "Q03",
@@ -93,9 +105,26 @@
         },
         {
             "id": "Q07",
-            "type": "input",
+            "type": "check",
             "title": "Which is your favourite pizza toppings?",
             "placeholder": "Pizza Toppings...",
+            "options": [
+                {
+                    "name": "toppings",
+                    "value": "Cheese",
+                    "checked": false
+                },
+                {
+                    "name": "toppings",
+                    "value": "Tomato",
+                    "checked": false
+                },
+                {
+                    "name": "toppings",
+                    "value": "Pepper",
+                    "checked": false
+                }
+            ],
             "nextStep": "Q08",
             "validations" : [{
             	"required": true,

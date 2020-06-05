@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Grid } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Question from '../../components/Questions/Question/Question';
 import data from '../../json/questionsList.json';
@@ -13,16 +12,35 @@ const QuestionListings = () => {
     var classes = useStyles();
     const questions = useState(questionsData)[0];
     const [index, setIndex] = useState(0);
+    const [prevIndex, setPrevIndex] = useState(0);
     const [surveyValue, setSurveyValue] = useState([]);
+    const [prevQues, setPrevQues] = useState(null);
     const [isSubmit, setSubmit] = useState(false);
-    let current = questions[index];
+    const [currQues, setCurrent] = useState({...questions[index]});
+    const [userQuesList, setUserQuesList ] = useState([]);
 
-    const surveyDataHandler = (ques, ans, next) => {
+    const prevDataHandler = (currIndex) => {
+        console.log(userQuesList);
+        let data = userQuesList[userQuesList.length - 1];
+        const updatedIndex = questions.findIndex(q => q.id === data);
+        console.log(updatedIndex);
+        let updatedUserList= userQuesList.filter((member,index) => { return index !== userQuesList.length - 1});
+        setUserQuesList( updatedUserList);
+        setCurrent({...questions[updatedIndex]});
+    }
+
+    const surveyDataHandler = (ques, ans, next, curr) => {
         const nextIndex = next !== "" ? questions.findIndex(q => q.id === next) : setSubmit(true);
+        const prevIndx = questions.findIndex(q => q.id === curr);
         nextIndex !== undefined ? setIndex(nextIndex) : setIndex();
-        current = questions[index];
-        setSurveyValue([...surveyValue, { 'question': ques, 'answer': ans }]);
-
+        //current = questions[index];
+        setSurveyValue([...surveyValue, { 'question': ques, 'answer': ans, id: curr }]);
+        setUserQuesList([...userQuesList, curr]);
+        let prevQuest = { 'question': ques, 'answer': ans };       
+        setPrevIndex(prevIndx);
+        setPrevQues(prevQuest);
+        setCurrent({...questions[nextIndex]});
+        console.log(userQuesList);
     }
 
     return (
@@ -33,9 +51,13 @@ const QuestionListings = () => {
                         User Servey
                      </Typography>
                     {!isSubmit ? <Question
-                        question={current}
+                        question={currQues}
+                        prev = {prevQues}
                         number={index}
-                        saveQuesInputs={surveyDataHandler}></Question> :
+                        total={questions.length}
+                        saveQuesInputs={surveyDataHandler}
+                        prevQuesInputs={prevDataHandler}  >
+                        </Question> :
                         <Grid>
                             <Typography variant="h4" color="primary" className={classes.subGreeting}>Thanks for the servey. Check your response below</Typography>
 
@@ -45,15 +67,24 @@ const QuestionListings = () => {
                                     <Card className={classes.root} variant="outlined">
                                         <CardContent>
                                             <Typography variant="h6" color="secondary">Question:</Typography><Typography variant="subtitle1" color="textSecondary"> {value.question}</Typography>
-                                            <Typography variant="h6" color="primary">Answer:</Typography><Typography variant="subtitle1" color="textPrimary">  {value.answer}</Typography>
+                                            <Typography variant="h6" color="primary">Answer:</Typography>
+                                            {
+                                                typeof value.answer === "string" ?
+                                                    <Typography variant="subtitle1" color="textPrimary"> {value.answer}
+                                                    </Typography> :
+
+                                                    value.answer.map((i, k) => {
+                                                        return (
+                                                            <Typography key={k} variant="subtitle1" color="textPrimary"> {i}
+                                                            </Typography>
+                                                        )
+                                                    })
+                                            }
                                         </CardContent>
                                     </Card>
                                 </Grid>
-
                             )}
                         </Grid>
-
-
                     }
                 </Grid>
             </Grid>

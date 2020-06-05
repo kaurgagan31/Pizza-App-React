@@ -1,0 +1,210 @@
+{
+    "steps": [
+        {
+            "stepId": "STEP1",
+            "questions": [
+                {
+                    "id": "Q01",
+                    "type": "input",
+                    "title": "Please Enter your name",
+                    "placeholder": "Your name...",
+                    "nextStep": "Q02",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP2",
+            "questions": [
+                {
+                    "id": "Q02",
+                    "type": "radio",
+                    "name": "gender",
+                    "options": [
+                        {
+                            "value": "Male",
+                            "label": "Male",
+                            "name": "gender"
+                        },
+                        {
+                            "value": "Female",
+                            "label": "Female",
+                            "name": "gender"
+                        },
+                        {
+                            "value": "Others",
+                            "label": "Others",
+                            "name": "gender"
+                        }
+                    ],
+                    "title": "Select your gender",
+                    "nextStep": "Q03",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP3",
+            "questions": [
+                {
+                    "id": "Q03",
+                    "type": "select",
+                    "name": "nationality",
+                    "options": [
+                        {
+                            "value": "",
+                            "label": "Select Nationality"
+                        },
+                        {
+                            "value": "Indian",
+                            "label": "Indian"
+                        },
+                        {
+                            "value": "NRI",
+                            "label": "NRI"
+                        }
+                    ],
+                    "title": "Select your nationality",
+                    "conditions": [
+                        {
+                            "value": "Indian",
+                            "nextStep": "Q04"
+                        },
+                        {
+                            "value": "NRI",
+                            "nextStep": "Q05"
+                        }
+                    ],
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP4",
+            "conditions": [
+                {
+                "value": "Indian",
+                "question": "Q04"
+                },
+                {
+                "value": "NRI",
+                "question": "Q05"
+                }
+                ],
+            "questions": [
+                {
+                    "id": "Q04",
+                    "type": "input",
+                    "title": "Which state do you belong?",
+                    "placeholder": "Your State...",
+                    "nextStep": "Q06",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                },
+                {
+                    "id": "Q05",
+                    "type": "input",
+                    "title": "Which country do you belong?",
+                    "placeholder": "Your country...",
+                    "nextStep": "Q06",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP5",
+            "questions": [
+                {
+                    "id": "Q06",
+                    "type": "input",
+                    "title": "Which is your favourite pizza?",
+                    "placeholder": "Favourite Pizza...",
+                    "nextStep": "Q07",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP6",
+            "questions": [
+                {
+                    "id": "Q07",
+                    "type": "check",
+                    "title": "Which is your favourite pizza toppings?",
+                    "placeholder": "Pizza Toppings...",
+                    "options": [
+                        {
+                            "name": "toppings",
+                            "value": "Cheese",
+                            "checked": false
+                        },
+                        {
+                            "name": "toppings",
+                            "value": "Tomato",
+                            "checked": false
+                        },
+                        {
+                            "name": "toppings",
+                            "value": "Pepper",
+                            "checked": false
+                        }
+                    ],
+                    "nextStep": "Q08",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "stepId": "STEP7",
+            "questions": [
+                {
+                    "id": "Q08",
+                    "type": "input",
+                    "title": "Give us any feedback",
+                    "placeholder": "Your Feedback here...",
+                    "nextStep": "",
+                    "validations": [
+                        {
+                            "required": true,
+                            "errorMessage": "This field is required"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
