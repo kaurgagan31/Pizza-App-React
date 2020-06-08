@@ -7,13 +7,16 @@ function Radio(props) {
     return (
         <div className={cx('input--wrapper', { 'input--wrapper-inline': props.inline })}>
             <label className='text--label' htmlFor={props.id}>{props.label}</label>
-            <div
-                onChange={props.onChange}
-                value={props.value} >
+            <div>
                 {props.options.map((option, index) => {
                     return (
-                        <div key={index}>
-                            <input  type="radio" value={option.value} name={option.name} /><label>{option.label}</label>
+                        <div key={index} >
+                            <input  
+                            type="radio" 
+                            checked={props.value == option.value? true: false} 
+                            value={option.value} 
+                            name={option.name}
+                            onChange={props.onChange}  /><label>{option.label}</label>
                         </div>
                     )
                 })}

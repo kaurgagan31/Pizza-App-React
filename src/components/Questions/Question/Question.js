@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Grid, Divider } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,11 +10,45 @@ import CheckboxList from '../../Form/Checkbox/CheckboxList';
 import useStyles from "./styles";
 
 const Question = (props) => {
-    console.log(props);
     const [quesValue, setQuesValue] = useState('');
     const [isDisabled, setDisabled] = useState(true);
+    const [checkboxOptions, setCheckboxValues] = useState();
     const [isAllSelected, setAllSelected] = useState(false);
     var classes = useStyles();
+
+    useEffect(() => {
+        if (props.savedQuestions.length !== 0) {
+            const quesIndex = props.savedQuestions.findIndex(q => q.id === props.question.id);
+            if (quesIndex > -1) {
+                let answer = props.savedQuestions[quesIndex].answer;
+                if (typeof answer === "string") {
+                    setQuesValue(answer);
+                } else {
+                    if (answer.length == props.question.options.length) {
+                        setAllSelected(true);
+                    }
+                    var checkOptions = props.question.options;
+                    checkOptions.map((item,index) => {
+                        let compare = answer.find(i => i === item.value);
+                        if(compare !== undefined) {
+                            item.checked = true;
+                        } else {
+                            item.checked = false;
+                        }
+                    })
+                    setCheckboxValues(checkOptions);
+                    let checkedValues = checkOptions.filter(e => { return e.checked === true });
+                    let checkedArray = []
+                    checkedValues.map((v, i) => {
+                        checkedArray.push(v.value);
+                    });
+                    setQuesValue(checkedArray);
+                }
+                setDisabled(false);
+            }
+            setCheckboxValues(props.question.options);
+        }
+    }, [props]);
 
     const handleChange = (event) => {
         setQuesValue(event.target.value);
@@ -24,7 +58,7 @@ const Question = (props) => {
         let isAllChecked = (checkName === 'all' && isChecked);
         let isAllUnChecked = (checkName === 'all' && !isChecked);
         const checked = isChecked;
-        const checkList = props.question.options.map((option, index) => {
+        const checkList = checkboxOptions.map((option, index) => {
             if (isAllChecked || option.value === checkName) {
                 return Object.assign({}, option, {
                     checked,
@@ -41,28 +75,29 @@ const Question = (props) => {
         let checkedArray = []
         checkedValues.map((v, i) => {
             checkedArray.push(v.value);
-        });
-        props.question.options = checkList;
+        });      
+        setCheckboxValues(checkList);
         setQuesValue(checkedArray);
         setAllSelected(isAllSelectedValue);
         checkedArray.length !== 0 ? setDisabled(false) : setDisabled(true);
     }
 
     const prevInputs = () => {
-        setQuesValue(props.prev.answer);
         setDisabled(false);
-        props.prevQuesInputs(props.number);
+        props.prevQuesInputs();
     }
 
     const saveInputs = () => {
         let nextValue = '';
+        let conditional = false;
         if (props.question.conditions) {
             const next = props.question.conditions.findIndex(i => i.value === quesValue);
             nextValue = props.question.conditions[next].nextStep;
         } else {
             nextValue = props.question.nextStep;
         }
-        props.saveQuesInputs(props.question.title, quesValue, nextValue, props.question.id);
+        props.question.conditional ? conditional = true: conditional = false;
+        props.saveQuesInputs(props.question.title, quesValue, nextValue, props.question.id, conditional);
         setQuesValue('');
         setDisabled(true);
     }
@@ -92,13 +127,14 @@ const Question = (props) => {
             );
             case 'check': return (
                 <div>
-                    <CheckboxList
+                    {checkboxOptions ?  <CheckboxList
                         id={props.question.id}
                         label={props.question.title}
-                        options={props.question.options}
+                        options={checkboxOptions}
                         isCheckedAll={isAllSelected}
                         onCheck={handleCheckBoxChange}
-                    />
+                    />: <div>loading ...</div>}
+                   
                 </div>
             );
             case 'select': return (
@@ -114,7 +150,7 @@ const Question = (props) => {
             );
         }
     }
-
+      
     return (
         <>
             <Grid container direction="column" justify="space-between" alignItems="center">
@@ -125,7 +161,7 @@ const Question = (props) => {
                     <CardActions>
                         <Grid container direction="row" >
                             {
-                                props.prev !== null ?
+                                props.number !== 0 ?
                                     <Button color="primary" size="large" onClick={prevInputs}>
                                         Prev
                                     </Button>
@@ -150,7 +186,6 @@ const Question = (props) => {
                         </Grid>
                     </CardActions>
                 </Card>
-
             </Grid>
         </>
     )

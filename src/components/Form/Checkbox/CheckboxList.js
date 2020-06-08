@@ -4,7 +4,6 @@ import cx from 'classnames';
 import './style.css';
 
 export default function CheckBoxList ({id, label, options, isCheckedAll, onCheck}) {
-    console.log(options);
     const checkBoxOptions = (
         <div className="checkbox-list">
             {options.map((option, index) => {

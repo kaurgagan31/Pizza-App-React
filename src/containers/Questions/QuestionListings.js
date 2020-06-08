@@ -12,35 +12,48 @@ const QuestionListings = () => {
     var classes = useStyles();
     const questions = useState(questionsData)[0];
     const [index, setIndex] = useState(0);
-    const [prevIndex, setPrevIndex] = useState(0);
     const [surveyValue, setSurveyValue] = useState([]);
-    const [prevQues, setPrevQues] = useState(null);
     const [isSubmit, setSubmit] = useState(false);
-    const [currQues, setCurrent] = useState({...questions[index]});
-    const [userQuesList, setUserQuesList ] = useState([]);
+    const [currQues, setCurrent] = useState({ ...questions[index] });
+    const [userQuesList, setUserQuesList] = useState([]);
 
-    const prevDataHandler = (currIndex) => {
-        console.log(userQuesList);
+    const prevDataHandler = () => {
         let data = userQuesList[userQuesList.length - 1];
         const updatedIndex = questions.findIndex(q => q.id === data);
-        console.log(updatedIndex);
-        let updatedUserList= userQuesList.filter((member,index) => { return index !== userQuesList.length - 1});
-        setUserQuesList( updatedUserList);
-        setCurrent({...questions[updatedIndex]});
+        let updatedUserList = userQuesList.filter((member, index) => { return index !== userQuesList.length - 1 });
+        setUserQuesList(updatedUserList);
+        setIndex(updatedIndex);
+        setCurrent({ ...questions[updatedIndex] });
     }
 
-    const surveyDataHandler = (ques, ans, next, curr) => {
+    const surveyDataHandler = (ques, ans, next, curr, condition) => {
         const nextIndex = next !== "" ? questions.findIndex(q => q.id === next) : setSubmit(true);
-        const prevIndx = questions.findIndex(q => q.id === curr);
         nextIndex !== undefined ? setIndex(nextIndex) : setIndex();
-        //current = questions[index];
-        setSurveyValue([...surveyValue, { 'question': ques, 'answer': ans, id: curr }]);
+        const quesIndex = surveyValue.findIndex(q => q.id === curr);
+        const conditionalQues = surveyValue.findIndex(q => q.conditional === true);
+        let surveyQues = [...surveyValue];
+        if (quesIndex > -1) {
+            if(conditionalQues > -1 && condition === true) {
+                surveyQues[conditionalQues].question = ques;
+                surveyQues[conditionalQues].answer = ans; 
+                surveyQues[conditionalQues].id = curr;
+            }
+            else {
+                surveyQues[quesIndex].answer = ans;
+            }
+            setSurveyValue(surveyQues);
+        }
+        else {
+            if(conditionalQues > -1 && condition === true) {
+                surveyQues[conditionalQues].question = ques;
+                surveyQues[conditionalQues].answer = ans; 
+                surveyQues[conditionalQues].id = curr;
+            } else {
+                setSurveyValue([...surveyValue, {'id': curr, 'question': ques, 'answer': ans, 'conditional': condition }]);
+            }
+        }
         setUserQuesList([...userQuesList, curr]);
-        let prevQuest = { 'question': ques, 'answer': ans };       
-        setPrevIndex(prevIndx);
-        setPrevQues(prevQuest);
-        setCurrent({...questions[nextIndex]});
-        console.log(userQuesList);
+        setCurrent({ ...questions[nextIndex] });
     }
 
     return (
@@ -52,12 +65,12 @@ const QuestionListings = () => {
                      </Typography>
                     {!isSubmit ? <Question
                         question={currQues}
-                        prev = {prevQues}
                         number={index}
                         total={questions.length}
+                        savedQuestions={surveyValue}
                         saveQuesInputs={surveyDataHandler}
                         prevQuesInputs={prevDataHandler}  >
-                        </Question> :
+                    </Question> :
                         <Grid>
                             <Typography variant="h4" color="primary" className={classes.subGreeting}>Thanks for the servey. Check your response below</Typography>
 
