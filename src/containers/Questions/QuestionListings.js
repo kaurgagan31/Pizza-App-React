@@ -3,7 +3,7 @@ import { Typography, Grid } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Question from '../../components/Questions/Question/Question';
-import data from '../../json/questionsList.json';
+import data from '../../json/divorcyList.json';
 import useStyles from "./styles";
 
 const questionsData = data.questions;
@@ -26,31 +26,30 @@ const QuestionListings = () => {
         setCurrent({ ...questions[updatedIndex] });
     }
 
-    const surveyDataHandler = (ques, ans, next, curr, condition) => {
+    const surveyDataHandler = (ques, ans, next, curr) => {
         const nextIndex = next !== "" ? questions.findIndex(q => q.id === next) : setSubmit(true);
         nextIndex !== undefined ? setIndex(nextIndex) : setIndex();
         const quesIndex = surveyValue.findIndex(q => q.id === curr);
-        const conditionalQues = surveyValue.findIndex(q => q.conditional === true);
         let surveyQues = [...surveyValue];
         if (quesIndex > -1) {
-            if(conditionalQues > -1 && condition === true) {
-                surveyQues[conditionalQues].question = ques;
-                surveyQues[conditionalQues].answer = ans; 
-                surveyQues[conditionalQues].id = curr;
+            let quest = questions.find(q => q.id === curr);
+            if (ans === "No") {
+                let condition = quest.conditions.find(c => c.value === "Yes");
+                condition.children.map((c, i) => {
+                    let qIndx = surveyQues.find(i => i.id === c);
+                    if (qIndx !== undefined) {
+                        let ind = surveyQues.findIndex(i => i.id === qIndx.id);
+                        if (ind > -1) {
+                            surveyQues.splice(ind, 1);
+                        }
+                    }
+                })
             }
-            else {
-                surveyQues[quesIndex].answer = ans;
-            }
+            surveyQues[quesIndex].answer = ans;
             setSurveyValue(surveyQues);
         }
         else {
-            if(conditionalQues > -1 && condition === true) {
-                surveyQues[conditionalQues].question = ques;
-                surveyQues[conditionalQues].answer = ans; 
-                surveyQues[conditionalQues].id = curr;
-            } else {
-                setSurveyValue([...surveyValue, {'id': curr, 'question': ques, 'answer': ans, 'conditional': condition }]);
-            }
+            setSurveyValue([...surveyValue, { 'id': curr, 'question': ques, 'answer': ans }]);
         }
         setUserQuesList([...userQuesList, curr]);
         setCurrent({ ...questions[nextIndex] });
@@ -73,7 +72,6 @@ const QuestionListings = () => {
                     </Question> :
                         <Grid>
                             <Typography variant="h4" color="primary" className={classes.subGreeting}>Thanks for the servey. Check your response below</Typography>
-
                             {surveyValue.map((value, index) =>
                                 <Grid key={index}>
                                     <div ></div>
@@ -85,7 +83,6 @@ const QuestionListings = () => {
                                                 typeof value.answer === "string" ?
                                                     <Typography variant="subtitle1" color="textPrimary"> {value.answer}
                                                     </Typography> :
-
                                                     value.answer.map((i, k) => {
                                                         return (
                                                             <Typography key={k} variant="subtitle1" color="textPrimary"> {i}

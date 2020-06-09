@@ -1,0 +1,236 @@
+{
+     "questions": [
+          {
+               "id": "Q01",
+               "type": "radio",
+               "name": "journey",
+               "title": "Where are you on your personal journey?",
+               "options": [
+                    {
+                         "value": "Problems in marriage",
+                         "label": "Problems in my marriage",
+                         "name": "journey"
+                    },
+                    {
+                         "value": "Thinking about divorce",
+                         "label": "Thinking about divorce",
+                         "name": "journey"
+                    },
+                    {
+                         "value": "Decision to get divorce",
+                         "label": "I made a decision to get a divorce",
+                         "name": "journey"
+                    },
+                    {
+                         "value": "Separated already",
+                         "label": "We have separated already",
+                         "name": "journey"
+                    },
+                    {
+                         "value": "Living separately for a year",
+                         "label": "We are already living separated for a year",
+                         "name": "journey"
+                    }
+               ],
+               "nextStep": "Q02"
+          },
+          {
+               "id": "Q02",
+               "type": "radio",
+               "name": "consultant",
+               "title": "Whom have you consulted so far?",
+               "options": [
+                    {
+                         "value": "Family and Friends",
+                         "label": "Family & Friends",
+                         "name": "consultant"
+                    },
+                    {
+                         "value": "Professional Counselor",
+                         "label": "Professional Counselor",
+                         "name": "consultant"
+                    },
+                    {
+                         "value": "Lawyer",
+                         "label": "Lawyer",
+                         "name": "consultant"
+                    },
+                    {
+                         "value": "Banker",
+                         "label": "Banker",
+                         "name": "consultant"
+                    },
+                    {
+                         "value": "Therapist",
+                         "label": "Therapist",
+                         "name": "consultant"
+                    }
+               ],
+               "nextStep": "Q03"
+          },
+          {
+               "id": "Q03",
+               "type": "input",
+               "accept": "single",
+               "name": "Income",
+               "title": "How high is your monthly net income?",
+               "placeholder": "Monthly net income",
+               "nextStep": "Q04",
+               "validations": [
+                    {
+                         "required": true,
+                         "errorMessage": "This field is required"
+                    }
+               ]
+          },
+          {
+               "id": "Q04",
+               "type": "input",
+               "accept": "single",
+               "name": "Asset",
+               "title": "How high are you joined assets?",
+               "placeholder": "Joined Assets",
+               "nextStep": "Q05",
+               "validations": [
+                    {
+                         "required": true,
+                         "errorMessage": "This field is required"
+                    },
+                    {
+                         "type": "isNumeric",
+                         "errorMessage": "This must be a number"
+                    }
+               ]
+          },
+          {
+               "id": "Q05",
+               "type": "radio",
+               "name": "kids",
+               "title": "Do you have kid(s) with your spouse?",
+               "options": [
+                    {
+                         "value": "Yes",
+                         "label": "Yes",
+                         "name": "kids"
+                    },
+                    {
+                         "value": "No",
+                         "label": "No",
+                         "name": "kids"
+                    }
+               ],
+               "conditions": [
+                    {
+                         "value": "Yes",
+                         "children": ["Q06", "Q07", "Q08", "Q09"],
+                         "nextStep": "Q06"
+                    },
+                    {
+                         "value": "No",
+                         "children": [],
+                         "nextStep": "Q10"
+                    }
+               ]
+          },
+          {
+               "id": "Q06",
+               "type": "radio",
+               "name": "number",
+               "title": "How many kid(s) do you have?",
+               "options": [
+                    {
+                         "value": "1",
+                         "label": "1",
+                         "name": "number"
+                    },
+                    {
+                         "value": "2",
+                         "label": "2",
+                         "name": "Number"
+                    },
+                    {
+                         "value": "3",
+                         "label": "3",
+                         "name": "Number"
+                    },
+                    {
+                         "value": "More",
+                         "label": "More",
+                         "name": "Number"
+                    }
+               ],
+               "parent": "Q05",
+               "nextStep": "Q07"
+          },
+          {
+               "id": "Q07",
+               "type": "input",
+               "accept": "multi",
+               "title": "How old is he/she?",
+               "name": "Kid",
+               "placeholder": "Age",
+               "dependant": "Q06",
+               "parent": "Q05",
+               "nextStep": "Q08"
+          },
+          {
+               "id": "Q08",
+               "type": "radio",
+               "name": "relation",
+               "title": "Are you their..",
+               "options": [
+                    {
+                         "value": "Father",
+                         "label": "Father",
+                         "name": "relation"
+                    },
+                    {
+                         "value": "Mother",
+                         "label": "Mother",
+                         "name": "relation"
+                    }
+               ],
+               "parent": "Q05",
+               "nextStep": "Q09"
+          },
+          {
+               "id": "Q09",
+               "type": "radio",
+               "name": "stay",
+               "title": "Do you already have an idea, where the kids should live?",
+               "options": [
+                    {
+                         "value": "Father",
+                         "label": "Father",
+                         "name": "stay"
+                    },
+                    {
+                         "value": "Mother",
+                         "label": "Mother",
+                         "name": "stay"
+                    },
+                    {
+                         "value": "50/50",
+                         "label": "50/50",
+                         "name": "stay"
+                    }
+               ],
+               "parent": "Q05",
+               "nextStep": "Q10"
+          },
+            {
+            "id": "Q10",
+            "type": "input",
+            "accept": "single",
+            "title": "Give us any feedback",
+            "name": "Feedback",
+            "placeholder": "Your Feedback here...",
+            "nextStep": "",
+            "validations" : [{
+            	"required": true,
+            	"errorMessage": "This field is required" 
+            	}
+            ]
+        }
+     ]
+}
