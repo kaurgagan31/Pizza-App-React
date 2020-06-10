@@ -17,6 +17,7 @@ const QuestionListings = () => {
     const [currQues, setCurrent] = useState({ ...questions[index] });
     const [userQuesList, setUserQuesList] = useState([]);
 
+    /** Handling function for previous functionality */
     const prevDataHandler = () => {
         let data = userQuesList[userQuesList.length - 1];
         const updatedIndex = questions.findIndex(q => q.id === data);
@@ -26,6 +27,7 @@ const QuestionListings = () => {
         setCurrent({ ...questions[updatedIndex] });
     }
 
+    /** Handling function for next functionality and saving the responses */
     const surveyDataHandler = (ques, ans, next, curr) => {
         const nextIndex = next !== "" ? questions.findIndex(q => q.id === next) : setSubmit(true);
         nextIndex !== undefined ? setIndex(nextIndex) : setIndex();
@@ -55,6 +57,21 @@ const QuestionListings = () => {
         setCurrent({ ...questions[nextIndex] });
     }
 
+    /** Outputting the object values */
+    const objectValues = (values) => {
+        let out = [];
+        var result = Object.keys(values).map(function (key) {
+            return { 'value': values[key] }
+        });
+        result.map((key, i) => {
+            out.push(
+                <Typography key={i} variant="subtitle1" color="textPrimary">Kid {i + 1} - {key.value} years
+                </Typography>
+            )
+        })
+        return out;
+    }
+
     return (
         <>
             <Grid container className={classes.container}>
@@ -72,6 +89,7 @@ const QuestionListings = () => {
                     </Question> :
                         <Grid>
                             <Typography variant="h4" color="primary" className={classes.subGreeting}>Thanks for the servey. Check your response below</Typography>
+
                             {surveyValue.map((value, index) =>
                                 <Grid key={index}>
                                     <div ></div>
@@ -83,12 +101,9 @@ const QuestionListings = () => {
                                                 typeof value.answer === "string" ?
                                                     <Typography variant="subtitle1" color="textPrimary"> {value.answer}
                                                     </Typography> :
-                                                    value.answer.map((i, k) => {
-                                                        return (
-                                                            <Typography key={k} variant="subtitle1" color="textPrimary"> {i}
-                                                            </Typography>
-                                                        )
-                                                    })
+                                                    <div>
+                                                        {objectValues(value.answer)}
+                                                    </div>
                                             }
                                         </CardContent>
                                     </Card>

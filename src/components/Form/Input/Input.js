@@ -23,7 +23,7 @@ function Input(props) {
     }
     return rows;
   };
-
+                                                        
   return (
     <div className={cx('input--wrapper', { 'input--wrapper-inline': props.inline })}>
       <label className='text--label' htmlFor={props.id}>{props.label}</label>

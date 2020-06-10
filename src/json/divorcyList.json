@@ -78,8 +78,8 @@
                "nextStep": "Q04",
                "validations": [
                     {
-                         "required": true,
-                         "errorMessage": "This field is required"
+                         "type": "isNumeric",
+                         "errorMessage": "This must be a number"
                     }
                ]
           },
@@ -92,10 +92,6 @@
                "placeholder": "Joined Assets",
                "nextStep": "Q05",
                "validations": [
-                    {
-                         "required": true,
-                         "errorMessage": "This field is required"
-                    },
                     {
                          "type": "isNumeric",
                          "errorMessage": "This must be a number"
@@ -122,7 +118,12 @@
                "conditions": [
                     {
                          "value": "Yes",
-                         "children": ["Q06", "Q07", "Q08", "Q09"],
+                         "children": [
+                              "Q06",
+                              "Q07",
+                              "Q08",
+                              "Q09"
+                         ],
                          "nextStep": "Q06"
                     },
                     {
@@ -171,7 +172,13 @@
                "placeholder": "Age",
                "dependant": "Q06",
                "parent": "Q05",
-               "nextStep": "Q08"
+               "nextStep": "Q08",
+               "validations": [
+                    {
+                         "type": "isNumeric",
+                         "errorMessage": "This must be a number"
+                    }
+               ]
           },
           {
                "id": "Q08",
@@ -218,19 +225,14 @@
                "parent": "Q05",
                "nextStep": "Q10"
           },
-            {
-            "id": "Q10",
-            "type": "input",
-            "accept": "single",
-            "title": "Give us any feedback",
-            "name": "Feedback",
-            "placeholder": "Your Feedback here...",
-            "nextStep": "",
-            "validations" : [{
-            	"required": true,
-            	"errorMessage": "This field is required" 
-            	}
-            ]
-        }
+          {
+               "id": "Q10",
+               "type": "input",
+               "accept": "single",
+               "title": "Give us any feedback",
+               "name": "Feedback",
+               "placeholder": "Your Feedback here...",
+               "nextStep": ""
+          }
      ]
 }
