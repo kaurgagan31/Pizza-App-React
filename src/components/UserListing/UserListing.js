@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,7 +10,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import CreateIcon from '@material-ui/icons/Create';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import classesRoot from './UserListing.module.css';
+import Loader from '../Loader/Loader';
 
 const headCells = [
     { id: 'first_name', numeric: false, disablePadding: true, label: 'First Name' },
@@ -19,6 +24,8 @@ const headCells = [
     { id: 'gender', numeric: false, disablePadding: false, label: 'Gender' },
     { id: 'jobType', numeric: false, disablePadding: false, label: 'Job Type' },
     { id: 'hobbies', numeric: false, disablePadding: false, label: 'Hobbies' },
+    { id: 'actions', numeric: false, disablePadding: false, label: 'Actions' },
+   
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -96,11 +103,11 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         width: '100%',
         marginBottom: theme.spacing(2),
-       
+
     },
     table: {
         minWidth: 750,
-        fontWeight: "bold", 
+        fontWeight: "bold",
     },
     visuallyHidden: {
         border: 0,
@@ -136,63 +143,74 @@ const UserListing = (props) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    console.log(props.users);
+    console.log(props);
 
     return (
-                <div className={classes.root}>
-                    <Paper className={classes.paper}>
+        <div className={classes.root}>
+            <Paper className={classes.paper}>
 
-                        <TableContainer>
-                            <Table
-                                className={classes.table}
-                                aria-labelledby="tableTitle"
-                                aria-label="enhanced table"
-                            >
-                                <EnhancedTableHead
-                                    classes={classes}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                />  
-                                    {
-                                        props.users.length !== 0 ?           
-                                                <TableBody>
-                                                {stableSort(props.users, getComparator(order, orderBy))
-                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    .map((row, index) => {
-                                                        return (
-                                                            <TableRow
-                                                                hover
-                                                                tabIndex={-1}
-                                                                key={row._id}
-                                                            >
-                                                                <TableCell component="th" scope="row" padding="none">
-                                                                    {row.first_name} </TableCell>
-                                                                <TableCell align="left">{row.last_name}</TableCell>
-                                                                <TableCell align="left">{row.email}</TableCell>
-                                                                <TableCell align="left">{row.gender}</TableCell>
-                                                                <TableCell align="left">{row.jobType}</TableCell>
-                                                                <TableCell align="left">{row.hobbies}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                    })}
-                                            </TableBody>
-                                             :
-                                            <div> <p className={classesRoot.NoResult}>Users not found</p></div>
-                                    }
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
-                            component="div"
-                            count={props.users.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onChangePage={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                <TableContainer>
+                    <Table
+                        className={classes.table}
+                        aria-labelledby="tableTitle"
+                        aria-label="enhanced table"
+                    >
+                        <EnhancedTableHead
+                            classes={classes}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
                         />
-                    </Paper>
-                </div>
+                        {
+                            props.users.length !== 0 ?
+                                <TableBody>
+                                    {stableSort(props.users, getComparator(order, orderBy))
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row, index) => {
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    tabIndex={-1}
+                                                    key={row.id}
+                                                >
+                                                    <TableCell component="th" scope="row" padding="none">
+                                                        {row.first_name} </TableCell>
+                                                    <TableCell align="left">{row.last_name}</TableCell>
+                                                    <TableCell align="left">{row.email}</TableCell>
+                                                    <TableCell align="left">{row.gender}</TableCell>
+                                                    <TableCell align="left">{row.jobType}</TableCell>
+                                                    <TableCell align="left">{row.hobbies.map((value,i) => {
+                                                       return <li key={i}>{value}</li>
+                                                    })}</TableCell> 
+                                                    <TableCell  align="left"> 
+                                                    <IconButton aria-label="delete" onClick={() => props.deleteUser(row.id)} >
+                                                        <DeleteIcon fontSize="small" color="secondary" />
+                                                    </IconButton>
+                                                    <IconButton aria-label="delete" onClick={() => props.updateUser(row)} >
+                                                        <CreateIcon fontSize="small" color="primary" />
+                                                    </IconButton>
+                                                    </TableCell>
+                                                  
+                                                </TableRow>
+                                            );
+                                        })}
+                                </TableBody>
+                                :
+                                <div> <p className={classesRoot.NoResult}><Loader /></p></div>
+                        }
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={props.users.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </Paper>
+        </div>
     );
 }
 

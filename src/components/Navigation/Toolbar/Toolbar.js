@@ -19,6 +19,8 @@ export default function MenuAppBar() {
   const authContext = useContext(AuthContext);
   const history = useHistory();
 
+  console.log(authContext);
+
   const logOut = () => {
     authContext.logout();
   };
@@ -74,7 +76,7 @@ export default function MenuAppBar() {
                 onClose={handleClose}
                 classes={{ paper: classes.profileMenu }}
               >
-                <MenuItem onClick={viewProfile}>Profile</MenuItem>
+                {/* <MenuItem onClick={viewProfile}>Profile</MenuItem> */}
                 <MenuItem onClick={logOut}>Sign Out</MenuItem>
               </Menu>
             </div>

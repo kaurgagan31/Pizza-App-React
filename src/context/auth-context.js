@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
-
+import { useApolloClient } from 'react-apollo-hooks';
+import gql from 'graphql-tag';
 var user = localStorage.getItem('currentUser');
 var token =  localStorage.getItem('token');
 export const AuthContext = React.createContext({
@@ -14,10 +15,32 @@ export const AuthContext = React.createContext({
     logout: () => { }
 });
 
-let isLogged = user !== '' && user !== null ? true : false;
-let loggedInUser = user !== null ? JSON.parse(user) : null;
-let usrToken = token !== null ? token: null;
-let adminUser = loggedInUser !== null ? loggedInUser.role_id: null;
+// login user mutation
+const LOGIN_USER_MUTATION = gql`
+mutation LOGIN_USER_MUTATION(
+    $email: String!
+    ) {
+        loginUser(
+            email: $email
+            ){
+             token
+             user {
+                  id
+                  first_name
+                  last_name
+                  email
+                  gender
+                  jobType
+                  role
+                 }
+            }
+}
+`
+
+let isLogged = user !== '' && user !== undefined ? true : false;
+let loggedInUser = user !== undefined ? JSON.parse(user) : null;
+let usrToken = token !== undefined ? token: null;
+let adminUser = loggedInUser !== undefined ? loggedInUser.role: null;
 
 const AuthContextProvider = props => {
     const [isAuthenticated, setIsAuthenticated] = useState(isLogged);
@@ -26,30 +49,29 @@ const AuthContextProvider = props => {
     const [token, setToken] = useState(usrToken);
     const [error, setError] = useState(false);
     const history = useHistory();
+    const client = useApolloClient();
 
-    const loginHandler = (data) => {
-        fetch('http://localhost:8000/api/log_in', {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(responseData => {
-                if (responseData.status === "100") {
-                    localStorage.setItem('currentUser', JSON.stringify(responseData.user));
-                    localStorage.setItem('token', responseData.token);
-                    setAdminValue(responseData.user.role_id);
-                    setToken(responseData.token);
-                    setCurrentUser(responseData.user);
+    const loginHandler = async (reqData) => {
+
+
+        const { data, error, loading } = await client.mutate({
+            variables: { ...reqData },
+            mutation: LOGIN_USER_MUTATION,
+        });
+        if(data) {
+            localStorage.setItem('currentUser', JSON.stringify(data.loginUser.user));
+                    localStorage.setItem('token', data.loginUser.token);
+                    setAdminValue(data.loginUser.user.role);
+                    setToken(data.loginUser.token);
+                    setCurrentUser(data.loginUser.user);
                     setIsAuthenticated(true);
                     setError(false);
                     history.push('/');
-                } else if(responseData.status === "103") {
-                    setError(true);
-                }
-            });
+        }
+
+        if(error) {
+            setError(true);
+        }
     };
 
     const userHandler = (data) => {

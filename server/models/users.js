@@ -27,18 +27,18 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    image: {
-        type: String
-    },
+    // image: {
+    //     type: String
+    // },
     hobbies: {
         type: Array,
     },
     role: {
         type: Number, default: 0
     },
-    accepted: {
-        type: Boolean,
-    },
+    // accepted: {
+    //     type: Boolean,
+    // },
     is_deleted :{ type: Number, default: 0 }
 },
     {

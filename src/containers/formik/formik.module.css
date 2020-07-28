@@ -80,5 +80,11 @@ button[type="reset"] {
   border: 0.5px solid black;
   padding: 20px;
   width: 350px;
+  margin-top: 30px;
+}
+
+.backButton {
+  margin-top: 85px;
+
 }
 
